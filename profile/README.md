@@ -1,6 +1,6 @@
 # Ace Marketing Services, Inc.
 
-Full-service creator-management agency for OnlyFans creators. Founded 2022, headquartered in Miami, Florida.
+Full-service creator-management agency for OnlyFans creators. Founded 2022 in Florida. Operational office in Orlando; most of our creator roster is based in Miami, where our founder lives.
 
 Most OnlyFans agencies only handle the chatting side. We do everything under one roof — **marketing, chatting, and AI-driven content creation** — so creators don't have to stitch together a different vendor for each piece.
 
@@ -37,13 +37,13 @@ Commission-only. No retainers. Rates vary by creator depending on scope and reve
 
 ## How we operate
 
-- **Headquartered in Miami**, distributed team.
-- **AI-first content pipeline** built in-house and run on dedicated hardware in Miami.
+- **Operational office in Orlando, FL.** Founder and most of the creator roster are in Miami.
+- **AI-first content pipeline** built in-house and run on dedicated hardware at the Orlando office.
 - **In-house financial automation** — Mercury banking, QuickBooks, and OnlyFans payouts all reconciled hourly so nothing slips.
 
 ## Hiring
 
-We're hiring. Currently looking for an **Operations Manager** and a **Social Media Manager**. Email Carson directly at [carson@acemarketingmiami.com](mailto:carson@acemarketingmiami.com).
+We're hiring in **Orlando, FL** (on-site at our operational office). Currently looking for an **Operations Manager** and a **Social Media Manager**. Email Carson directly at [carson@acemarketingmiami.com](mailto:carson@acemarketingmiami.com).
 
 ---
 

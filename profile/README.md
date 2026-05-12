@@ -20,11 +20,7 @@ For each creator we work with, we run the full operation end-to-end:
 
 ## How engagements work
 
-Commission-only. No retainers. Rates vary by creator (20–50%) depending on scope and revenue scale.
-
-## Our roster
-
-15 active OnlyFans creators.
+Commission-only. No retainers. Rates vary by creator depending on scope and revenue scale.
 
 ## Team
 

@@ -47,7 +47,7 @@ Commission-only. No retainers. Rates vary by creator (20–50%) depending on sco
 
 ## Hiring
 
-We're hiring. Particularly interested in chatters, content reviewers, and social media managers. Email Carson directly at [carson@acemarketingmiami.com](mailto:carson@acemarketingmiami.com).
+We're hiring. Currently looking for an **Operations Manager** and a **Social Media Manager**. Email Carson directly at [carson@acemarketingmiami.com](mailto:carson@acemarketingmiami.com).
 
 ---
 

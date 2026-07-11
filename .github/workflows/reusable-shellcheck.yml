@@ -1,0 +1,38 @@
+name: Reusable ShellCheck
+
+on:
+  workflow_call:
+    inputs:
+      paths:
+        description: Space-separated directories searched for shell files
+        required: false
+        default: "."
+        type: string
+      exclusions:
+        description: Comma-separated ShellCheck rule exclusions
+        required: false
+        default: "SC1007"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck:
+    name: shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Install ShellCheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - name: Run ShellCheck
+        env:
+          SEARCH_PATHS: ${{ inputs.paths }}
+          EXCLUSIONS: ${{ inputs.exclusions }}
+        run: |
+          set +e
+          fail=0
+          while IFS= read -r file; do
+            shellcheck -S warning -e "$EXCLUSIONS" "$file" || fail=1
+          done < <(find $SEARCH_PATHS -type f \( -name '*.sh' -o -name '*.bash' -o -path 'bin/*session' -o -path 'bin/*bootstrap*' \) 2>/dev/null)
+          exit $fail

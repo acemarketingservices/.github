@@ -1,0 +1,31 @@
+name: Reusable gitleaks
+
+on:
+  workflow_call:
+    inputs:
+      gitleaks-version:
+        description: Exact gitleaks release to install
+        required: false
+        default: "8.30.1"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  gitleaks:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+      - name: Install gitleaks
+        env:
+          GITLEAKS_VERSION: ${{ inputs.gitleaks-version }}
+        run: |
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | sudo tar -xz -C /usr/local/bin gitleaks
+          gitleaks version
+      - name: Run gitleaks
+        run: gitleaks detect --source . --no-banner --redact --exit-code 1

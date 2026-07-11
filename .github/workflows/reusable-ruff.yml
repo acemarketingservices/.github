@@ -31,7 +31,6 @@ jobs:
   ruff:
     name: ruff
     runs-on: ubuntu-latest
-    continue-on-error: ${{ !inputs.enforce }}
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
@@ -43,5 +42,14 @@ jobs:
         run: python -m pip install "ruff==$RUFF_VERSION"
       - name: Run Ruff
         env:
+          RUFF_ENFORCE: ${{ inputs.enforce }}
           RUFF_PATHS: ${{ inputs.paths }}
-        run: ruff check $RUFF_PATHS
+        run: |
+          set +e
+          ruff check $RUFF_PATHS
+          status=$?
+          if [ "$status" -ne 0 ] && [ "$RUFF_ENFORCE" != "true" ]; then
+            echo "::warning::Ruff reported findings; this caller is advisory."
+            exit 0
+          fi
+          exit "$status"

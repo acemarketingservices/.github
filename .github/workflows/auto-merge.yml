@@ -3,6 +3,8 @@ name: auto-merge
 on:
   pull_request:
     types: [opened, reopened, ready_for_review, synchronize]
+  push:
+    branches: [main]
 
 permissions:
   checks: read
@@ -15,6 +17,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  refresh-open-prs:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Refresh ready pull requests after main changes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          gh api --paginate \
+            "repos/$REPOSITORY/pulls?state=open&base=main&per_page=100" \
+            --jq '.[] | select(.draft == false) | [.number, .head.repo.full_name] | @tsv' |
+          while IFS=$'\t' read -r pr_number head_repository; do
+            [[ -n "$pr_number" ]] || continue
+            [[ "$head_repository" == "$REPOSITORY" ]] || continue
+            if ! result=$(gh api --method PUT \
+              "repos/$REPOSITORY/pulls/$pr_number/update-branch" 2>&1); then
+              if [[ "$result" != *"There are no new commits"* ]]; then
+                echo "::warning title=PR #$pr_number was not refreshed::$result"
+              fi
+            fi
+          done
+
   merge-after-checks:
     if: github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest

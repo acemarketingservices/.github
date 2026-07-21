@@ -8,6 +8,7 @@ permissions:
   checks: read
   contents: write
   pull-requests: write
+  statuses: read
 
 concurrency:
   group: auto-merge-${{ github.event.pull_request.number }}

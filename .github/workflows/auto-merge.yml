@@ -48,18 +48,27 @@ jobs:
             check_runs=$(gh api \
               -H "Accept: application/vnd.github+json" \
               "repos/$REPOSITORY/commits/$HEAD_SHA/check-runs?per_page=100")
+            commit_status=$(gh api \
+              -H "Accept: application/vnd.github+json" \
+              "repos/$REPOSITORY/commits/$HEAD_SHA/status")
 
-            total=$(jq '[.check_runs[] | select(.name != "merge-after-checks")] | length' <<<"$check_runs")
-            pending=$(jq '[.check_runs[] | select(.name != "merge-after-checks" and .status != "completed")] | length' <<<"$check_runs")
-            failed=$(jq '[.check_runs[] | select(.name != "merge-after-checks" and .status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped"))] | length' <<<"$check_runs")
+            check_total=$(jq '[.check_runs[] | select(.name != "merge-after-checks")] | length' <<<"$check_runs")
+            check_pending=$(jq '[.check_runs[] | select(.name != "merge-after-checks" and .status != "completed")] | length' <<<"$check_runs")
+            check_failed=$(jq '[.check_runs[] | select(.name != "merge-after-checks" and .status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped"))] | length' <<<"$check_runs")
+            status_state=$(jq -r 'if (.statuses | length) == 0 then "none" else .state end' <<<"$commit_status")
 
-            if (( failed > 0 )); then
+            if (( check_failed > 0 )); then
               jq -r '.check_runs[] | select(.name != "merge-after-checks" and .status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped")) | "Blocked by \(.name): \(.conclusion)"' <<<"$check_runs"
               exit 1
             fi
 
-            if (( total == 0 || pending > 0 )); then
-              echo "Waiting for checks ($pending still running, $total registered)."
+            if [[ "$status_state" == "failure" || "$status_state" == "error" ]]; then
+              jq -r '.statuses[] | select(.state == "failure" or .state == "error") | "Blocked by \(.context): \(.state)"' <<<"$commit_status"
+              exit 1
+            fi
+
+            if (( check_pending > 0 )) || [[ "$status_state" == "pending" ]]; then
+              echo "Waiting for checks ($check_pending of $check_total check runs pending; classic status: $status_state)."
               sleep 15
               continue
             fi
@@ -81,5 +90,5 @@ jobs:
             exit 0
           done
 
-          echo "Checks did not finish within 15 minutes."
+          echo "Checks did not finish within 15 minutes and 30 seconds."
           exit 1

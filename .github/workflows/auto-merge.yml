@@ -30,10 +30,22 @@ jobs:
         run: |
           set -euo pipefail
 
-          # A prior auto-merge enrollment survives new commits. Clear it so the
-          # updated commit cannot merge until this fresh check cycle finishes.
-          gh pr merge "$PR_NUMBER" --repo "$REPOSITORY" --disable-auto \
-            >/dev/null 2>&1 || true
+          pr_state=$(gh api "repos/$REPOSITORY/pulls/$PR_NUMBER" --jq .state)
+          if [[ "$pr_state" != "open" ]]; then
+            echo "Pull request is no longer open."
+            exit 0
+          fi
+
+          current_sha=$(gh api "repos/$REPOSITORY/pulls/$PR_NUMBER" --jq .head.sha)
+          if [[ "$current_sha" != "$HEAD_SHA" ]]; then
+            echo "A newer commit replaced this run."
+            exit 0
+          fi
+
+          # A prior auto-merge enrollment survives new commits. Clear it only
+          # after proving this run owns the current commit. Unexpected failures
+          # remain visible and stop the workflow.
+          gh pr merge "$PR_NUMBER" --repo "$REPOSITORY" --disable-auto
 
           # Give every workflow time to register its checks for this commit.
           sleep 30

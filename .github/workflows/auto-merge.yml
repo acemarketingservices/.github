@@ -77,7 +77,7 @@ jobs:
               exit 1
             fi
 
-            gh pr merge "$PR_NUMBER" --repo "$REPOSITORY" --squash --delete-branch
+            gh pr merge "$PR_NUMBER" --repo "$REPOSITORY" --auto --squash --delete-branch
             exit 0
           done
 

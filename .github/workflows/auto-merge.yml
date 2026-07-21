@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   merge-after-checks:
-    if: github.event.pull_request.draft == false
+    if: github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -46,19 +46,21 @@ jobs:
             fi
 
             check_runs=$(gh api \
+              --paginate \
               -H "Accept: application/vnd.github+json" \
-              "repos/$REPOSITORY/commits/$HEAD_SHA/check-runs?per_page=100")
+              "repos/$REPOSITORY/commits/$HEAD_SHA/check-runs?per_page=100" \
+              --jq '.check_runs[]')
             commit_status=$(gh api \
               -H "Accept: application/vnd.github+json" \
-              "repos/$REPOSITORY/commits/$HEAD_SHA/status")
+              "repos/$REPOSITORY/commits/$HEAD_SHA/status?per_page=100")
 
-            check_total=$(jq '[.check_runs[] | select(.name != "merge-after-checks")] | length' <<<"$check_runs")
-            check_pending=$(jq '[.check_runs[] | select(.name != "merge-after-checks" and .status != "completed")] | length' <<<"$check_runs")
-            check_failed=$(jq '[.check_runs[] | select(.name != "merge-after-checks" and .status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped"))] | length' <<<"$check_runs")
+            check_total=$(jq -s '[.[] | select(.name != "merge-after-checks" and (.name | endswith(" / merge-after-checks") | not))] | length' <<<"$check_runs")
+            check_pending=$(jq -s '[.[] | select(.name != "merge-after-checks" and (.name | endswith(" / merge-after-checks") | not) and .status != "completed")] | length' <<<"$check_runs")
+            check_failed=$(jq -s '[.[] | select(.name != "merge-after-checks" and (.name | endswith(" / merge-after-checks") | not) and .status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped"))] | length' <<<"$check_runs")
             status_state=$(jq -r 'if (.statuses | length) == 0 then "none" else .state end' <<<"$commit_status")
 
             if (( check_failed > 0 )); then
-              jq -r '.check_runs[] | select(.name != "merge-after-checks" and .status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped")) | "Blocked by \(.name): \(.conclusion)"' <<<"$check_runs"
+              jq -sr '.[] | select(.name != "merge-after-checks" and (.name | endswith(" / merge-after-checks") | not) and .status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped")) | "Blocked by \(.name): \(.conclusion)"' <<<"$check_runs"
               exit 1
             fi
 

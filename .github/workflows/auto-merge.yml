@@ -30,6 +30,11 @@ jobs:
         run: |
           set -euo pipefail
 
+          # A prior auto-merge enrollment survives new commits. Clear it so the
+          # updated commit cannot merge until this fresh check cycle finishes.
+          gh pr merge "$PR_NUMBER" --repo "$REPOSITORY" --disable-auto \
+            >/dev/null 2>&1 || true
+
           # Give every workflow time to register its checks for this commit.
           sleep 30
 

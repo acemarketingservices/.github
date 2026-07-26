@@ -2,7 +2,7 @@
 
 Ace Marketing Services, Inc. is a creator marketing and growth agency. We help creators build stronger brands, grow their audiences, produce high-quality content, and develop sustainable businesses.
 
-[Visit Ace Models](https://acemodels.ai/)
+[Visit Ace Models](https://ace.inc/)
 
 ## What we do
 
@@ -17,7 +17,7 @@ Ace works with creators and partners across the United States. Our team operates
 
 ## Work with Ace
 
-- [Creator and company information](https://acemodels.ai/)
+- [Creator and company information](https://ace.inc/)
 - [Careers at Ace](https://app.dover.com/jobs/acemodelsai)
 - [hello@ace.inc](mailto:hello@ace.inc)
 

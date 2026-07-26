@@ -1,52 +1,26 @@
 # Ace Models
 
-Ace Marketing Services, Inc. is a creator marketing and growth agency providing management, audience growth, content production, and monetization support.
+Ace Marketing Services, Inc. is a creator marketing and growth agency. We help creators build stronger brands, grow their audiences, produce high-quality content, and develop sustainable businesses.
 
-We bring marketing, creator support, and AI-assisted content production together under one team so creators can grow without coordinating several separate vendors.
-
-Website: [acemodels.ai](https://acemodels.ai/)
-
----
+[Visit Ace Models](https://acemodels.ai/)
 
 ## What we do
 
-- **Content production** — photo and video production through our in-house creative workflow, reviewed by our team.
-- **Posting and audience growth** — cross-platform publishing, testing, and performance monitoring.
-- **Fan engagement** — subscriber communication, relationship management, and monetization support.
-- **Brand strategy** — positioning, content audits, and creative direction.
-- **Creator operations** — reporting, workflow coordination, and day-to-day account support.
+- Creator management and growth strategy
+- Brand positioning and creative direction
+- Content production and publishing support
+- Audience development and performance analysis
 
-## How engagements work
+## Based in Winter Park, Florida
 
-Commission-only. No retainers. Rates vary by creator based on scope and revenue scale.
+Ace works with creators and partners across the United States. Our team operates from Winter Park, Florida.
 
-## How we operate
+## Work with Ace
 
-- **Based in Winter Park, Florida.**
-- **AI-assisted content pipeline** built and operated in-house.
-- **Integrated creator operations** supported by internal automation and reporting tools.
-
-## Hiring
-
-We hire for on-site roles in **Winter Park, Florida**. Visit our [careers page](https://app.dover.com/jobs/acemodelsai) or email [carson@ace.inc](mailto:carson@ace.inc).
-
----
-
-## Contact
-
-**Carson Slade** — Owner / Operator
-
-Email: [carson@ace.inc](mailto:carson@ace.inc)
-
-Web: [acemodels.ai](https://acemodels.ai/)
-
----
+- [Creator and company information](https://acemodels.ai/)
+- [Careers at Ace](https://app.dover.com/jobs/acemodelsai)
+- [hello@ace.inc](mailto:hello@ace.inc)
 
 ## About this GitHub organization
 
-Most repositories under `acemarketingservices` are private because they contain internal tools and operating workflows used by Ace day to day.
-
-| Repository | Purpose |
-|---|---|
-| **`ace-ops`** | Team-facing creator operations, content workflows, cross-platform reporting, and automation. |
-| **`ace-exec-ops`** | Owner-only executive and financial operations tooling. |
+This organization contains Ace-owned software and operating tools. Most repositories are private. Public repositories contain only materials intended for public use.

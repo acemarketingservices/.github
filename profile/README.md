@@ -34,8 +34,10 @@ We hire for on-site roles in **Winter Park, Florida**. Visit our [careers page](
 
 ## Contact
 
-**Carson Slade** — Owner / Operator  
-Email: [carson@ace.inc](mailto:carson@ace.inc)  
+**Carson Slade** — Owner / Operator
+
+Email: [carson@ace.inc](mailto:carson@ace.inc)
+
 Web: [acemodels.ai](https://acemodels.ai/)
 
 ---

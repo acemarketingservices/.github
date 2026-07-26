@@ -1,67 +1,50 @@
-# Ace Marketing Services, Inc.
+# Ace Models
 
-Full-service creator-management agency for OnlyFans creators. Founded 2022 in Florida. Operational office in Orlando; most of our creator roster is based in Miami, where our founder lives.
+Ace Marketing Services, Inc. is a creator marketing and growth agency providing management, audience growth, content production, and monetization support.
 
-Most OnlyFans agencies only handle the chatting side. We do everything under one roof — **marketing, chatting, and AI-driven content creation** — so creators don't have to stitch together a different vendor for each piece.
+We bring marketing, creator support, and AI-assisted content production together under one team so creators can grow without coordinating several separate vendors.
 
-Website: [acegirls.ai](https://acegirls.ai)
+Website: [acemodels.ai](https://acemodels.ai/)
 
 ---
 
 ## What we do
 
-For each creator we work with, we run the full operation end-to-end:
-
-- **Content production** — original photo and video output produced through in-house AI pipelines (Seedream for stills, Kling for video), finished and reviewed by our team.
-- **Posting & growth** — daily posting cadence across OnlyFans, Instagram, X, TikTok, and Snapchat, with cross-platform performance monitoring.
-- **Fan engagement (DMs / chatting)** — the operational heart of OnlyFans revenue. Our managers handle subscriber conversations, PPV sales, and tip cultivation.
+- **Content production** — photo and video production through our in-house creative workflow, reviewed by our team.
+- **Posting and audience growth** — cross-platform publishing, testing, and performance monitoring.
+- **Fan engagement** — subscriber communication, relationship management, and monetization support.
 - **Brand strategy** — positioning, content audits, and creative direction.
-- **Financial back-office** — weekly commission invoicing, hourly payout reconciliation against the OnlyFans API, Mercury banking operations, and monthly P&L. Creators always know exactly where they stand.
+- **Creator operations** — reporting, workflow coordination, and day-to-day account support.
 
 ## How engagements work
 
-Commission-only. No retainers. Rates vary by creator depending on scope and revenue scale.
-
-## Team
-
-| Person | Role |
-|---|---|
-| Carson Slade | Founder / Owner |
-| Jake Rudd | Operations / Oversight |
-| Stephan Von Schmeling | Head of AI |
-| Desmond Birch | Social Media Manager |
-| Sean Ndambuki | Social Media Manager |
-| Thomas "Tommy" Mathes | Social Media Manager |
-| Ronald "Ronnie" Albee | Social Media Manager |
-| Vance Randolph | Social Media Manager |
+Commission-only. No retainers. Rates vary by creator based on scope and revenue scale.
 
 ## How we operate
 
-- **Operational office in Orlando, FL.** Founder and most of the creator roster are in Miami.
-- **AI-first content pipeline** built in-house and run on dedicated hardware at the Orlando office.
-- **In-house financial automation** — Mercury banking, QuickBooks, and OnlyFans payouts all reconciled hourly so nothing slips.
+- **Based in Winter Park, Florida.**
+- **AI-assisted content pipeline** built and operated in-house.
+- **Integrated creator operations** supported by internal automation and reporting tools.
 
 ## Hiring
 
-We're hiring in **Orlando, FL** (on-site at our operational office). Currently looking for an **Operations Manager** and a **Social Media Manager**. Email Carson directly at [carson@acemarketingmiami.com](mailto:carson@acemarketingmiami.com).
+We hire for on-site roles in **Winter Park, Florida**. Visit our [careers page](https://app.dover.com/jobs/acemodelsai) or email [carson@ace.inc](mailto:carson@ace.inc).
 
 ---
 
 ## Contact
 
-**Carson Slade** — Owner / Operator
-Email: [carson@acemarketingmiami.com](mailto:carson@acemarketingmiami.com)
-Web: [acegirls.ai](https://acegirls.ai)
+**Carson Slade** — Owner / Operator  
+Email: [carson@ace.inc](mailto:carson@ace.inc)  
+Web: [acemodels.ai](https://acemodels.ai/)
 
 ---
 
-## About this GitHub org
+## About this GitHub organization
 
-Most repositories under `acemarketingservices` are private — they contain internal tooling for the content pipeline, financial automation, and operational workflows that run Ace day-to-day.
+Most repositories under `acemarketingservices` are private because they contain internal tools and operating workflows used by Ace day to day.
 
-The two main repos:
-
-| Repo | Purpose |
+| Repository | Purpose |
 |---|---|
-| **`ace-ops`** | Team-facing automations: AI content pipeline, multi-platform posting and analytics, cross-platform reporting. |
-| **`ace-exec-ops`** | Owner-only financial tooling: Mercury banking integration, QuickBooks sync, OnlyFans payout reconciliation, weekly commission invoicing, monthly P&L generation. |
+| **`ace-ops`** | Team-facing creator operations, content workflows, cross-platform reporting, and automation. |
+| **`ace-exec-ops`** | Owner-only executive and financial operations tooling. |

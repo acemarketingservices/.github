@@ -1,6 +1,6 @@
-# Ace Models
+# Ace, Inc. 
 
-Ace Marketing Services, Inc. is a creator marketing and growth agency. We help creators build stronger brands, grow their audiences, produce high-quality content, and develop sustainable businesses.
+Ace, Inc. is a creator marketing and growth agency. We help creators build stronger brands, grow their audiences, produce high-quality content, and develop sustainable businesses.
 
 [Visit Ace Models](https://ace.inc/)
 

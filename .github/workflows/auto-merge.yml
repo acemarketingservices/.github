@@ -3,141 +3,25 @@ name: auto-merge
 on:
   pull_request:
     types: [opened, reopened, ready_for_review, synchronize]
-  push:
-    branches: [main]
 
 permissions:
-  checks: read
   contents: write
   pull-requests: write
-  statuses: read
 
 concurrency:
   group: auto-merge-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
-  refresh-open-prs:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Refresh ready pull requests after main changes
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPOSITORY: ${{ github.repository }}
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          gh api --paginate \
-            "repos/$REPOSITORY/pulls?state=open&base=main&per_page=100" \
-            --jq '.[] | select(.draft == false) | [.number, .head.repo.full_name] | @tsv' |
-          while IFS=$'\t' read -r pr_number head_repository; do
-            [[ -n "$pr_number" ]] || continue
-            [[ "$head_repository" == "$REPOSITORY" ]] || continue
-            if ! result=$(gh api --method PUT \
-              "repos/$REPOSITORY/pulls/$pr_number/update-branch" 2>&1); then
-              if [[ "$result" != *"There are no new commits"* ]]; then
-                echo "::warning title=PR #$pr_number was not refreshed::$result"
-              fi
-            fi
-          done
-
-  merge-after-checks:
+  enroll:
     if: github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
-      - name: Wait for every check, then squash merge
+      - name: Enable squash auto-merge
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
-          REPOSITORY: ${{ github.repository }}
-        shell: bash
         run: |
           set -euo pipefail
-
-          pr_state=$(gh api "repos/$REPOSITORY/pulls/$PR_NUMBER" --jq .state)
-          if [[ "$pr_state" != "open" ]]; then
-            echo "Pull request is no longer open."
-            exit 0
-          fi
-
-          current_sha=$(gh api "repos/$REPOSITORY/pulls/$PR_NUMBER" --jq .head.sha)
-          if [[ "$current_sha" != "$HEAD_SHA" ]]; then
-            echo "A newer commit replaced this run."
-            exit 0
-          fi
-
-          # A prior auto-merge enrollment survives new commits. Clear it only
-          # after proving this run owns the current commit. Unexpected failures
-          # remain visible and stop the workflow.
-          gh pr merge "$PR_NUMBER" --repo "$REPOSITORY" --disable-auto
-
-          # Give every workflow time to register its checks for this commit.
-          sleep 30
-
-          for attempt in {1..60}; do
-            pr_state=$(gh api "repos/$REPOSITORY/pulls/$PR_NUMBER" --jq .state)
-            if [[ "$pr_state" != "open" ]]; then
-              echo "Pull request is no longer open."
-              exit 0
-            fi
-
-            current_sha=$(gh api "repos/$REPOSITORY/pulls/$PR_NUMBER" --jq .head.sha)
-            if [[ "$current_sha" != "$HEAD_SHA" ]]; then
-              echo "A newer commit replaced this run."
-              exit 0
-            fi
-
-            check_runs=$(gh api \
-              --paginate \
-              -H "Accept: application/vnd.github+json" \
-              "repos/$REPOSITORY/commits/$HEAD_SHA/check-runs?per_page=100" \
-              --jq '.check_runs[]')
-            commit_status=$(gh api \
-              -H "Accept: application/vnd.github+json" \
-              "repos/$REPOSITORY/commits/$HEAD_SHA/status?per_page=100")
-
-            check_total=$(jq -s '[.[] | select(.name != "merge-after-checks" and (.name | endswith(" / merge-after-checks") | not))] | length' <<<"$check_runs")
-            check_pending=$(jq -s '[.[] | select(.name != "merge-after-checks" and (.name | endswith(" / merge-after-checks") | not) and .status != "completed")] | length' <<<"$check_runs")
-            check_failed=$(jq -s '[.[] | select(.name != "merge-after-checks" and (.name | endswith(" / merge-after-checks") | not) and .status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped"))] | length' <<<"$check_runs")
-            status_state=$(jq -r 'if (.statuses | length) == 0 then "none" else .state end' <<<"$commit_status")
-
-            if (( check_failed > 0 )); then
-              jq -sr '.[] | select(.name != "merge-after-checks" and (.name | endswith(" / merge-after-checks") | not) and .status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped")) | "Blocked by \(.name): \(.conclusion)"' <<<"$check_runs"
-              exit 1
-            fi
-
-            if [[ "$status_state" == "failure" || "$status_state" == "error" ]]; then
-              jq -r '.statuses[] | select(.state == "failure" or .state == "error") | "Blocked by \(.context): \(.state)"' <<<"$commit_status"
-              exit 1
-            fi
-
-            if (( check_pending > 0 )) || [[ "$status_state" == "pending" ]]; then
-              echo "Waiting for checks ($check_pending of $check_total check runs pending; classic status: $status_state)."
-              sleep 15
-              continue
-            fi
-
-            merge_state=$(gh pr view "$PR_NUMBER" --repo "$REPOSITORY" --json mergeStateStatus --jq .mergeStateStatus)
-            if [[ "$merge_state" == "BEHIND" ]]; then
-              echo "Updating the branch with the latest main branch first."
-              gh api --method PUT "repos/$REPOSITORY/pulls/$PR_NUMBER/update-branch" \
-                -f expected_head_sha="$HEAD_SHA" >/dev/null
-              exit 0
-            fi
-
-            if [[ "$merge_state" == "DIRTY" ]]; then
-              echo "The branch has a merge conflict that needs repair."
-              exit 1
-            fi
-
-            gh pr merge "$PR_NUMBER" --repo "$REPOSITORY" --auto --squash --delete-branch
-            exit 0
-          done
-
-          echo "Checks did not finish within 15 minutes and 30 seconds."
-          exit 1
+          pr_id="$(gh api graphql -f query='query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){pullRequest(number:$number){id}}}' -f owner="$GITHUB_REPOSITORY_OWNER" -f name="${GITHUB_REPOSITORY#*/}" -F number="$PR_NUMBER" --jq '.data.repository.pullRequest.id')"
+          gh api graphql -f query='mutation($id:ID!){enablePullRequestAutoMerge(input:{pullRequestId:$id,mergeMethod:SQUASH}){pullRequest{number}}}' -f id="$pr_id"

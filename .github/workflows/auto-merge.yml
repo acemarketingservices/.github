@@ -41,19 +41,21 @@ jobs:
             current_sha=$(gh api "repos/$REPOSITORY/pulls/$PR_NUMBER" --jq .head.sha)
             [[ "$current_sha" == "$HEAD_SHA" ]] || { echo "A newer commit replaced this run."; exit 0; }
             check_runs=$(gh api --paginate -H "Accept: application/vnd.github+json" "repos/$REPOSITORY/commits/$HEAD_SHA/check-runs?per_page=100" --jq '.check_runs[]')
-            commit_status=$(gh api -H "Accept: application/vnd.github+json" "repos/$REPOSITORY/commits/$HEAD_SHA/status")
+            raw_statuses=$(gh api --paginate -H "Accept: application/vnd.github+json" "repos/$REPOSITORY/commits/$HEAD_SHA/statuses?per_page=100" --jq '.[]')
+            classic_statuses=$(jq -s '[reduce .[] as $s ({}; if has($s.context) then . else .[$s.context] = $s end) | .[] | select((.context | test("(^| / )(merge-after-checks|squash-merge)$") | not))]' <<<"$raw_statuses")
             check_total=$(jq -s '[.[] | select((.name | test("(^| / )(merge-after-checks|squash-merge)$") | not))] | length' <<<"$check_runs")
             check_pending=$(jq -s '[.[] | select((.name | test("(^| / )(merge-after-checks|squash-merge)$") | not) and .status != "completed")] | length' <<<"$check_runs")
             check_failed=$(jq -s '[.[] | select((.name | test("(^| / )(merge-after-checks|squash-merge)$") | not) and .status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped"))] | length' <<<"$check_runs")
-            status_state=$(jq -r 'if (.statuses | length) == 0 then "none" else .state end' <<<"$commit_status")
+            status_total=$(jq 'length' <<<"$classic_statuses")
+            status_pending=$(jq '[.[] | select(.state == "pending")] | length' <<<"$classic_statuses")
+            status_failed=$(jq '[.[] | select(.state == "failure" or .state == "error")] | length' <<<"$classic_statuses")
             if (( check_failed > 0 )); then jq -sr '.[] | select((.name | test("(^| / )(merge-after-checks|squash-merge)$") | not) and .status == "completed" and (.conclusion != "success" and .conclusion != "neutral" and .conclusion != "skipped")) | "Blocked by \(.name): \(.conclusion)"' <<<"$check_runs"; exit 1; fi
-            if [[ "$status_state" == "failure" || "$status_state" == "error" ]]; then
-              failing_statuses=$(gh api --paginate -H "Accept: application/vnd.github+json" "repos/$REPOSITORY/commits/$HEAD_SHA/statuses?per_page=100" --jq '.[]')
-              jq -sr '.[] | select(.state == "failure" or .state == "error") | "Blocked by \(.context): \(.state)"' <<<"$failing_statuses"
+            if (( status_failed > 0 )); then
+              jq -r '.[] | select(.state == "failure" or .state == "error") | "Blocked by \(.context): \(.state)"' <<<"$classic_statuses"
               exit 1
             fi
-            if (( check_total == 0 )) && [[ "$status_state" == "none" ]] && (( attempt <= 4 )); then echo "Waiting for checks to register."; sleep 15; continue; fi
-            if (( check_pending > 0 )) || [[ "$status_state" == "pending" ]]; then echo "Waiting for checks ($check_pending of $check_total pending; status: $status_state)."; sleep 15; continue; fi
+            if (( check_total == 0 && status_total == 0 && attempt <= 4 )); then echo "Waiting for checks to register."; sleep 15; continue; fi
+            if (( check_pending > 0 || status_pending > 0 )); then echo "Waiting for checks ($check_pending of $check_total check runs and $status_pending of $status_total statuses pending)."; sleep 15; continue; fi
             merge_state=$(gh api "repos/$REPOSITORY/pulls/$PR_NUMBER" --jq .mergeable_state)
             if [[ "$merge_state" == "unknown" ]]; then echo "Waiting for GitHub to calculate mergeability."; sleep 15; continue; fi
             if [[ "$merge_state" == "behind" ]]; then echo "The branch is behind $BASE_REF. Rebase it locally onto origin/$BASE_REF, then push the repaired branch."; exit 1; fi

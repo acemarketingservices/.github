@@ -4,43 +4,6 @@ This repository controls organization-wide GitHub defaults and public profile
 material. Every human or AI agent working here must follow the shared standard
 below. Repository-specific security and approval rules take precedence.
 
-## Completion-first execution
-
-For every nontrivial request to build, fix, set up, troubleshoot, migrate,
-change, clean up, or finish something, use `$verification-loop`.
-
-- Keep routine plans, searches, tool details, discoveries, and retries internal.
-  Continue through safe execution and authoritative readback until the outcome
-  is proven or one genuine user-only gate remains.
-- When work exposes stale or conflicting repository information, identify the
-  authority named by the current instructions and source-of-truth files. Repair
-  bounded stale repository copies directly relevant to the authorized task and
-  add a drift check when practical; never guess between unresolved authorities
-  or move protected facts across privacy boundaries.
-- Refresh the target branch and volatile dependencies before a long final check
-  or merge.
-- Treat prevention and cleanup as separate outcomes. Check for stale alerts,
-  Slack messages, issues, tasks, reports, dashboards, and copied facts, but
-  change or remove only records covered by the user's authority and verify the
-  exact target afterward.
-- A task that was already open when this policy or skill changed must explicitly
-  reload the current skill before relying on it; skill installation is not
-  retroactive to an already-started task.
-
-## Mandatory evidence gate for consequential recommendations
-
-Before recommending a strategy, growth play, vendor, operating change, hiring
-approach, product direction, content direction, or technical investment that
-could consume meaningful time or money or affect a client, account, candidate,
-employee, or production system, use `$evidence-backed-recommendation`.
-
-Establish the current baseline and do-nothing option from the named authority,
-check material counterevidence and at least one credible alternative, use the
-correct economics, and separate confirmed facts from inference and unavailable
-evidence. Recommend a rollout only when the evidence supports it; otherwise
-return a bounded test with measures and stop/keep rules. This evidence gate does
-not authorize a consequential action.
-
 ## Shared Carson working standard
 
 - Explain work like a thoughtful person sitting beside Carson. Lead with what

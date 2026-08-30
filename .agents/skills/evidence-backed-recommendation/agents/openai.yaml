@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evidence-backed recommendation"
+  short_description: "Gate consequential recommendations on real evidence"
+  default_prompt: "Use $evidence-backed-recommendation to evaluate this recommendation against Ace data and alternatives."

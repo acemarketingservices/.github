@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verification Loop"
+  short_description: "Quietly execute, verify, repair, and finish"
+  default_prompt: "Use $verification-loop to carry this task through verified completion, repair any directly relevant stale repository truth against its named authority, and verify downstream cleanup without running commentary or stopping at routine failures; interrupt me only for an exact action only I can take."

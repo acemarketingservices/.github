@@ -47,3 +47,19 @@ below. Repository-specific security and approval rules take precedence.
   ready pull request, enable automatic squash merge, stay with in-scope failures,
   verify the merge, and clean up. Never weaken checks, and never treat a code
   merge as permission for production promotion or another approval-gated action.
+
+## Company-wide Codex skill authoring
+
+Carson's 2026-08-31 standing instruction allows Stephan (`@AceStephan`) to
+create, edit, validate, and submit pull requests for `.agents/skills/**` in
+every active `acemarketingservices` repository. This recursive permission
+includes every supporting file below a skill folder and allows the folder to be
+created where it does not yet exist.
+
+This is a skill-scoped repository-maintenance permission. It does not authorize
+changes to top-level policy, memory, secrets or credentials, hooks, workflows,
+unrelated agent configuration, repository settings, production or runtime
+configuration, protected business data, or external actions. Normal branch,
+pull-request, validation, and review requirements remain in force. Carson
+remains an owner and reviewer unless a repository gives Stephan broader
+maintenance authority.

@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://ace.inc"><img src="https://img.shields.io/badge/ace.inc-website-111111?style=for-the-badge" alt="website"></a>
   <a href="https://portal.ace.inc"><img src="https://img.shields.io/badge/portal.ace.inc-creator%20portal-1f6feb?style=for-the-badge" alt="portal"></a>
-  <a href="https://app.dover.com/jobs/acemodelsai"><img src="https://img.shields.io/badge/careers-open%20roles-2ea44f?style=for-the-badge" alt="careers"></a>
+  <a href="https://app.dover.com/jobs/aceinc"><img src="https://img.shields.io/badge/careers-open%20roles-2ea44f?style=for-the-badge" alt="careers"></a>
   <a href="mailto:hello@ace.inc"><img src="https://img.shields.io/badge/hello%40ace.inc-email-6e7681?style=for-the-badge" alt="email"></a>
 </p>
 
@@ -59,4 +59,4 @@ Most repositories here are private. Public repositories contain only material in
 
 ## Work with Ace
 
-**Creators**: [apply at ace.inc](https://ace.inc) · **Builders and operators**: [open roles](https://app.dover.com/jobs/acemodelsai) · [hello@ace.inc](mailto:hello@ace.inc)
+**Creators**: [apply at ace.inc](https://ace.inc) · **Builders and operators**: [open roles](https://app.dover.com/jobs/aceinc) · [hello@ace.inc](mailto:hello@ace.inc)

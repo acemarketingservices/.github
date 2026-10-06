@@ -1,66 +1,14 @@
-# Ace Organization — Shared Agent Instructions
+# Ace Organization: Agent Instructions
 
-This repository controls organization-wide GitHub defaults and public profile
-material. Every human or AI agent working here must follow the shared standard
-below. Repository-specific security and approval rules take precedence.
+This public repository holds the Ace organization profile and shared GitHub
+workflows. Anything written here is visible to everyone.
 
-## Shared Carson working standard
-
-- Explain work like a thoughtful person sitting beside Carson. Lead with what
-  happened, why it matters, and what he should do or decide next. Use everyday
-  words; translate technical evidence instead of pasting unexplained jargon.
-- Match the answer to the job. Give direct questions a direct answer. Put the
-  recommended choice first, including its meaningful downside. Use 3–6
-  plain-English bullets for ordinary plans; use a deep plan only when requested.
-- Treat this as a long-running operating workspace, not an isolated chat. Check
-  the repo, connected sources, and relevant task history for information Carson
-  already provided before asking him to repeat it.
-- "Daily," "morning," "today," "what should I work on," and current-status
-  requests require fresh inspection of the authoritative live sources. Memory,
-  prior messages, old reports, screen observations, and task titles help locate
-  evidence but do not prove the current state.
-- Keep home-base tasks concise and decision-oriented. Show at most three
-  immediate actions, name the owner, and keep work owned by an agent or employee
-  off Carson's list unless he must decide.
-- Clearly separate confirmed, expected, and unverified outcomes. Never call
-  something live, sent, filed, paid, deployed, approved, deleted, or complete
-  unless the authoritative source confirms that exact result. Software activity
-  such as tests, commits, or pull requests is not itself business completion.
-- Take safe, reversible, in-scope steps without repeatedly asking permission.
-  Handle routine troubleshooting instead of handing it to Carson. If blocked,
-  state the practical blocker, owner, and smallest next action.
-- If an earlier assumption was wrong, say so plainly, correct course, and
-  re-check the result. Do not make Carson restate the goal.
-- If Carson interrupts with a status question, answer immediately with the
-  current state, what is confirmed, and what remains.
-- Preserve boundaries between Ace team operations, private executive/finance,
-  hiring, portal migration, Slade Holdings, and personal matters. Do not let
-  data or authorization silently cross between them.
-- Do not send or publish external messages, create email drafts unless
-  specifically requested, make payments, submit filings, make employment
-  decisions, change access, promote production, destroy material data, or bind
-  Carson or an Ace entity without his explicit approval for that exact action.
-  Approval for research, preparation, or a code merge does not authorize a
-  different consequential action.
-- When asked to build, fix, or change code, finish the safe publishing cycle:
-  isolate the work, change only in-scope files, run checks, commit, push, open a
-  ready pull request, enable automatic squash merge, stay with in-scope failures,
-  verify the merge, and clean up. Never weaken checks, and never treat a code
-  merge as permission for production promotion or another approval-gated action.
-
-## Company-wide Codex skill authoring
-
-Carson's 2026-08-31 standing instruction allows Stephan (`@AceStephan`) to
-create, edit, validate, and submit pull requests for `.agents/skills/**` in
-every active `acemarketingservices` repository except the private
-`ace-exec-ops` repository, where he has no repository access. This recursive
-permission includes every supporting file below a skill folder and allows the
-folder to be created where it does not yet exist.
-
-This is a skill-scoped repository-maintenance permission. It does not authorize
-changes to top-level policy, memory, secrets or credentials, hooks, workflows,
-unrelated agent configuration, repository settings, production or runtime
-configuration, protected business data, or external actions. Normal branch,
-pull-request, validation, and review requirements remain in force. Carson
-remains an owner and reviewer unless a repository gives Stephan broader
-maintenance authority.
+- Keep content public-safe. Never add internal operating rules, names of
+  private repositories, client or creator data, finances, credentials, or
+  access arrangements.
+- Profile numbers stay rounded and describe Ace from the outside.
+- Reusable workflows must stay pinned to exact releases. Callers reference
+  them by full commit SHA.
+- Every change goes through a pull request reviewed under `CODEOWNERS`.
+- Ace's full working standard lives in the private shared agent kit and is
+  installed in each private repository.

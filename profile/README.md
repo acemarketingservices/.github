@@ -53,6 +53,8 @@ Ace runs on software we write ourselves.
   <img src="https://skillicons.dev/icons?i=python,typescript,react,nodejs,supabase,firebase,gcp,githubactions&perline=8" alt="stack">
 </p>
 
+Snapshot as of October 2026: more than 2,000 pull requests merged across the organization since April 2026, almost all of them in private repositories.
+
 ## About this organization
 
 Most repositories here are private. Public repositories contain only material intended for public use.

@@ -1,0 +1,27 @@
+name: update-profile-stats
+
+on:
+  schedule:
+    - cron: "17 11 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Count merged changes across the organization
+        env:
+          ORG_STATS_TOKEN: ${{ secrets.ORG_STATS_TOKEN }}
+        run: python3 scripts/update_profile_stats.py
+      - name: Save the new numbers
+        run: |
+          git diff --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "profile: refresh activity numbers"
+          git push

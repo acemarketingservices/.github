@@ -61,11 +61,7 @@ Ace runs on software we write ourselves.
 Almost all of it is private, so here is the live count of changes the team ships:
 
 <!-- stats starts -->
-```yaml
-changes shipped:  3,700+ since April 2026
-last 30 days:     1,600+
-updated:          October 27, 2026, automatically every day
-```
+<img src="https://raw.githubusercontent.com/acemarketingservices/.github/profile-stats/profile-stats.svg" alt="Changes shipped across Ace, updated every day" width="560">
 <!-- stats ends -->
 
 ## About this organization

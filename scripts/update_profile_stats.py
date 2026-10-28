@@ -1,25 +1,40 @@
-"""Refresh the rounded activity numbers on the Ace organization profile.
+"""Draw the rounded activity card shown on the Ace organization profile.
 
-Modeled on simonw/simonw's build_readme.py: count from the live GitHub API,
-then rewrite only the text between the stats markers in profile/README.md.
-Numbers are rounded down so the public page never overstates them.
+Modeled on simonw/simonw's build_readme.py (count from the live GitHub API)
+and lowlighter/metrics (write an SVG card to its own branch, because the
+profile's main branch only accepts reviewed pull requests). Numbers are
+rounded down so the public page never overstates them.
 """
 
 import datetime
 import json
 import os
-import pathlib
-import re
 import sys
 import urllib.parse
 import urllib.request
 
 ORG = "acemarketingservices"
 SINCE = "2026-04-01"
-README = pathlib.Path(__file__).resolve().parent.parent / "profile" / "README.md"
-MARKER = re.compile(
-    r"(<!-- stats starts -->).*(<!-- stats ends -->)", re.DOTALL
-)
+
+CARD = """<svg xmlns="http://www.w3.org/2000/svg" width="560" height="132" viewBox="0 0 560 132" role="img" aria-label="{label}">
+  <style>
+    .bg {{ fill: #ffffff; stroke: #d0d7de; }}
+    .big {{ font: 700 30px -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #1f2328; }}
+    .small {{ font: 400 13px -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #59636e; }}
+    @media (prefers-color-scheme: dark) {{
+      .bg {{ fill: #0d1117; stroke: #30363d; }}
+      .big {{ fill: #f0f6fc; }}
+      .small {{ fill: #9198a1; }}
+    }}
+  </style>
+  <rect class="bg" x="0.5" y="0.5" width="559" height="131" rx="10"/>
+  <text class="big" x="28" y="58">{total}</text>
+  <text class="small" x="28" y="82">changes shipped since April 2026</text>
+  <text class="big" x="300" y="58">{month}</text>
+  <text class="small" x="300" y="82">in the last 30 days</text>
+  <text class="small" x="28" y="114">Updated {today}, automatically every day</text>
+</svg>
+"""
 
 
 def merged_count(token, since):
@@ -43,26 +58,24 @@ def round_down(number, step):
 
 
 def main():
+    if len(sys.argv) != 2:
+        print("usage: update_profile_stats.py OUTPUT.svg", file=sys.stderr)
+        return 2
     token = os.environ.get("ORG_STATS_TOKEN")
     if not token:
-        print("ORG_STATS_TOKEN is not set; leaving the profile unchanged.")
+        print("ORG_STATS_TOKEN is not set; leaving the card unchanged.")
         return 0
     today = datetime.date.today()
     last_30 = (today - datetime.timedelta(days=30)).isoformat()
-    total = merged_count(token, SINCE)
-    month = merged_count(token, last_30)
-    block = (
-        "\n```yaml\n"
-        f"changes shipped:  {round_down(total, 100)} since April 2026\n"
-        f"last 30 days:     {round_down(month, 100)}\n"
-        f"updated:          {today:%B %-d, %Y}, automatically every day\n"
-        "```\n"
-    )
-    text = README.read_text()
-    if not MARKER.search(text):
-        print("Stats markers not found in profile/README.md", file=sys.stderr)
-        return 1
-    README.write_text(MARKER.sub(lambda m: m.group(1) + block + m.group(2), text))
+    total = round_down(merged_count(token, SINCE), 100)
+    month = round_down(merged_count(token, last_30), 100)
+    label = f"{total} changes shipped since April 2026, {month} in the last 30 days"
+    with open(sys.argv[1], "w") as out:
+        out.write(
+            CARD.format(
+                label=label, total=total, month=month, today=f"{today:%B %-d, %Y}"
+            )
+        )
     return 0
 
 

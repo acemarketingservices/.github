@@ -15,13 +15,18 @@
   <a href="mailto:hello@ace.inc"><img src="https://img.shields.io/badge/hello%40ace.inc-email-6e7681?style=for-the-badge" alt="email"></a>
 </p>
 
+<p align="center">
+  <a href="https://www.linkedin.com/company/acemarketingservices/">LinkedIn</a> ·
+  <a href="https://www.instagram.com/joinaceinc/">Instagram</a> ·
+  <a href="https://x.com/joinaceinc">X</a> ·
+  <a href="https://app.dover.com/jobs/aceinc">Careers</a>
+</p>
+
 ---
 
 ```yaml
 what:      one managed growth operation for creators
-scale:     creator earnings managed at a multi million dollar scale
-creators:  dozens under active management
-accounts:  hundreds operated across Instagram, TikTok, Snapchat, X, and OnlyFans
+platforms: Instagram, TikTok, Snapchat, X, and OnlyFans
 team:      in house growth, content, chatting, and account care
 promise:   every creator sees the team, the plan, the work, and the results
 where:     Winter Park, Florida
@@ -53,7 +58,15 @@ Ace runs on software we write ourselves.
   <img src="https://skillicons.dev/icons?i=python,typescript,react,nodejs,supabase,firebase,gcp,githubactions&perline=8" alt="stack">
 </p>
 
-Snapshot as of October 2026: more than 2,000 pull requests merged across the organization since April 2026, almost all of them in private repositories.
+Almost all of it is private, so here is the live count of changes the team ships:
+
+<!-- stats starts -->
+```yaml
+changes shipped:  3,700+ since April 2026
+last 30 days:     1,600+
+updated:          October 27, 2026, automatically every day
+```
+<!-- stats ends -->
 
 ## About this organization
 

@@ -3,6 +3,13 @@
 This public repository provides the organization profile plus centrally
 maintained GitHub Actions workflows for Ace repositories.
 
+<!-- owns-box:start -->
+## What this project owns
+
+- **Owns:** Ace's public GitHub profile and the shared checks every Ace project uses.
+- **Not here:** Guides and skills. Those go in the team project that owns the job.
+<!-- owns-box:end -->
+
 ## Reusable workflows
 
 - `reusable-ruff.yml` runs a pinned Ruff release against caller-selected paths.
